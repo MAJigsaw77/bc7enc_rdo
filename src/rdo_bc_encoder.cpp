@@ -458,7 +458,6 @@ namespace rdo_bc
 		memset(bc7_mode_hist, 0, sizeof(bc7_mode_hist));
 
 		{
-#pragma omp parallel for
 			for (int by = 0; by < (int)m_blocks_y; by++)
 			{
 				for (uint32_t bx = 0; bx < m_blocks_x; bx++)
@@ -512,7 +511,6 @@ namespace rdo_bc
 
 						bc7enc_compress_block(pBlock, pixels, &m_bc7enc_pack_params);
 
-#pragma omp critical
 						{
 							uint32_t mode = ((uint8_t*)pBlock)[0];
 							for (uint32_t m = 0; m <= 7; m++)
@@ -650,7 +648,6 @@ namespace rdo_bc
 
 			clock_t rdo_start_t = clock();
 
-#pragma omp parallel for
 			for (int p = 0; p < rdo_total_threads; p++)
 			{
 				const int first_block_to_encode = first_block_index[p];
@@ -670,7 +667,6 @@ namespace rdo_bc
 					unpacker_funcs::unpack_bc7_block, &block_unpackers,
 					m_params.m_rdo_ultrasmooth_block_handling ? &local_block_rgb_mse_scales : nullptr);
 
-#pragma omp critical
 				{
 					total_modified += total_modified_local;
 				}
@@ -766,7 +762,6 @@ namespace rdo_bc
 
 			clock_t rdo_start_t = clock();
 
-#pragma omp parallel for
 			for (int p = 0; p < rdo_total_threads; p++)
 			{
 				const int first_block_to_encode = first_block_index[p];
@@ -786,7 +781,6 @@ namespace rdo_bc
 					(ert::color_rgba*)&block_pixels_g[16 * first_block_to_encode], ert_p, total_modified_local_g,
 					unpacker_funcs::unpack_bc4_block, &block_unpackers);
 
-#pragma omp critical
 				{
 					total_modified_r += total_modified_local_r;
 					total_modified_g += total_modified_local_g;
@@ -834,7 +828,6 @@ namespace rdo_bc
 
 			clock_t rdo_start_t = clock();
 
-#pragma omp parallel for
 			for (int p = 0; p < rdo_total_threads; p++)
 			{
 				const int first_block_to_encode = first_block_index[p];
@@ -849,7 +842,6 @@ namespace rdo_bc
 					(ert::color_rgba*)&block_pixels[16 * first_block_to_encode], ert_p, total_modified_local,
 					unpacker_funcs::unpack_bc4_block, &block_unpackers);
 
-#pragma omp critical
 				{
 					total_modified += total_modified_local;
 				}
@@ -896,7 +888,6 @@ namespace rdo_bc
 
 			clock_t rdo_start_t = clock();
 
-#pragma omp parallel for
 			for (int p = 0; p < rdo_total_threads; p++)
 			{
 				const int first_block_to_encode = first_block_index[p];
@@ -916,7 +907,6 @@ namespace rdo_bc
 					unpacker_funcs::unpack_bc1_block, &block_unpackers,
 					m_params.m_rdo_ultrasmooth_block_handling ? &local_block_rgb_mse_scales : nullptr);
 
-#pragma omp critical
 				{
 					total_modified += total_modified_local;
 				}
@@ -999,7 +989,6 @@ namespace rdo_bc
 
 			clock_t rdo_start_t = clock();
 
-#pragma omp parallel for
 			for (int p = 0; p < rdo_total_threads; p++)
 			{
 				const int first_block_to_encode = first_block_index[p];
@@ -1024,7 +1013,6 @@ namespace rdo_bc
 					unpacker_funcs::unpack_bc1_block, &block_unpackers,
 					m_params.m_rdo_ultrasmooth_block_handling ? &local_block_rgb_mse_scales : nullptr);
 
-#pragma omp critical
 				{
 					total_modified_rgb += total_modified_local_rgb;
 					total_modified_alpha += total_modified_local_alpha;
@@ -1054,7 +1042,6 @@ namespace rdo_bc
 
 		bool unpack_failed = false;
 				
-#pragma omp parallel for
 		for (int by = 0; by < (int)get_blocks_y(); by++)
 		{
 			for (uint32_t bx = 0; bx < get_blocks_x(); bx++)

@@ -291,7 +291,6 @@ void gaussian_filter(imagef& dst, const imagef& orig_img, uint32_t odd_filter_wi
 
 	dst.crop(dst_width, dst_height);
 
-#pragma omp parallel for
 	for (int oy = 0; oy < dst_height; oy++)
 	{
 		for (int ox = 0; ox < dst_width; ox++)
@@ -325,7 +324,6 @@ static void pow_image(const imagef& src, imagef& dst, const vec4F& power)
 {
 	dst.resize(src);
 
-#pragma omp parallel for
 	for (int y = 0; y < (int)dst.get_height(); y++)
 	{
 		for (uint32_t x = 0; x < dst.get_width(); x++)
@@ -345,7 +343,6 @@ static void mul_image(const imagef& src, imagef& dst, const vec4F& mul)
 {
 	dst.resize(src);
 
-#pragma omp parallel for
 	for (int y = 0; y < (int)dst.get_height(); y++)
 	{
 		for (uint32_t x = 0; x < dst.get_width(); x++)
@@ -361,7 +358,6 @@ static void scale_image(const imagef& src, imagef& dst, const vec4F& scale, cons
 {
 	dst.resize(src);
 
-#pragma omp parallel for
 	for (int y = 0; y < (int)dst.get_height(); y++)
 	{
 		for (uint32_t x = 0; x < dst.get_width(); x++)
@@ -382,7 +378,6 @@ static void add_weighted_image(const imagef& src1, const vec4F& alpha, const ima
 {
 	dst.resize(src1);
 
-#pragma omp parallel for
 	for (int y = 0; y < (int)dst.get_height(); y++)
 	{
 		for (uint32_t x = 0; x < dst.get_width(); x++)
@@ -403,7 +398,6 @@ static void add_image(const imagef& src1, const imagef& src2, imagef& dst)
 {
 	dst.resize(src1);
 
-#pragma omp parallel for
 	for (int y = 0; y < (int)dst.get_height(); y++)
 	{
 		for (uint32_t x = 0; x < dst.get_width(); x++)
@@ -420,7 +414,6 @@ static void adds_image(const imagef& src, const vec4F& value, imagef& dst)
 {
 	dst.resize(src);
 
-#pragma omp parallel for
 	for (int y = 0; y < (int)dst.get_height(); y++)
 	{
 		for (uint32_t x = 0; x < dst.get_width(); x++)
@@ -436,7 +429,6 @@ static void mul_image(const imagef& src1, const imagef& src2, imagef& dst, const
 {
 	dst.resize(src1);
 
-#pragma omp parallel for
 	for (int y = 0; y < (int)dst.get_height(); y++)
 	{
 		for (uint32_t x = 0; x < dst.get_width(); x++)
@@ -462,7 +454,6 @@ static void div_image(const imagef& src1, const imagef& src2, imagef& dst, const
 {
 	dst.resize(src1);
 
-#pragma omp parallel for
 	for (int y = 0; y < (int)dst.get_height(); y++)
 	{
 		for (uint32_t x = 0; x < dst.get_width(); x++)

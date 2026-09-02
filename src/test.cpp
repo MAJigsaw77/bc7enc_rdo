@@ -7,11 +7,9 @@
 
 #define COMPUTE_SSIM (0)
 
-#if _OPENMP
-#include <omp.h>
-#endif
-
 #include "rdo_bc_encoder.h"
+
+#include <thread>
 
 using namespace utils;
 
@@ -299,11 +297,11 @@ int main(int argc, char* argv[])
 	if (!quiet_mode)
 		printf("bc7enc v%s - RDO BC1-7 Texture Compressor\n", BC7ENC_VERSION);
 
-	int max_threads = 1;
-#if _OPENMP
-	max_threads = std::min(std::max(1, omp_get_max_threads()), 128);
-#endif
-		
+	int max_threads = std::thread::hardware_concurrency();
+
+	if (max_threads == 0)
+		max_threads = 1;
+
 	if (argc < 2)
 		return print_usage();
 		
