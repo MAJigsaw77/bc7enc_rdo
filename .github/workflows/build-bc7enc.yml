@@ -1,0 +1,63 @@
+name: Build bc7enc
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            make
+            mingw-w64-x86_64-gcc
+
+      - name: Compiling
+        shell: msys2 {0}
+        run: make
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bc7enc-windows
+          path: bin/bc7enc.exe
+          if-no-files-found: error
+
+  MacOS:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compiling Universal Binary
+        run: make universal
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bc7enc-macos
+          path: bin/bc7enc
+          if-no-files-found: error
+
+  Linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compiling
+        run: make
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bc7enc-linux
+          path: bin/bc7enc
+          if-no-files-found: error
