@@ -79,6 +79,10 @@ CFLAGS   ?= -fno-strict-aliasing $(WARN_FLAGS) $(INCLUDES)
 CXXFLAGS ?= -fno-strict-aliasing $(WARN_FLAGS) $(INCLUDES) -DSUPPORT_BC7E=0
 LDFLAGS  ?= 
 
+ifeq ($(HOST_OS), Windows)
+    LDFLAGS += -static -static-libgcc -static-libstdc++
+endif
+
 ifeq ($(HOST_OS), Darwin)
     ifeq ($(ARCH), x86_64)
         CFLAGS   += -arch x86_64
